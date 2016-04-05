@@ -90,6 +90,7 @@ Flight::route('POST /', function(){
 
 
     $return =  json_encode($data);
+    echo "Test";
     echo $return;
 
 });
