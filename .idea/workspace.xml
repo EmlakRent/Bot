@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a730811f-7e11-4161-a295-630f5c9c5fdf" name="Default" comment="" />
+    <list default="true" id="a730811f-7e11-4161-a295-630f5c9c5fdf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="Bot.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -55,11 +57,11 @@
       <file leaf-file-name="functions.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/functions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6991525">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state vertical-scroll-proportion="-3.3368645">
+              <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
               <folding>
                 <element signature="e#6#87#0#PHP" expanded="true" />
-                <element signature="e#6550#6730#0#PHP" expanded="false" />
+                <element signature="e#6209#6389#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -74,8 +76,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/functions.php" />
         <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/functions.php" />
       </list>
     </option>
   </component>
@@ -253,7 +255,7 @@
           <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
-            <element signature="e#6550#6730#0#PHP" expanded="false" />
+            <element signature="e#6209#6389#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -288,7 +290,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
-            <element signature="e#6550#6730#0#PHP" expanded="false" />
+            <element signature="e#6209#6389#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -323,7 +325,7 @@
           <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
-            <element signature="e#6550#6730#0#PHP" expanded="false" />
+            <element signature="e#6209#6389#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -362,11 +364,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6991525">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        <state vertical-scroll-proportion="-3.3368645">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
-            <element signature="e#6550#6730#0#PHP" expanded="false" />
+            <element signature="e#6209#6389#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>

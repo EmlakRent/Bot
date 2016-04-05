@@ -48,7 +48,7 @@ Flight::route('POST /', function(){
         //$url=file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=".urlencode($street));
 //        $url = $functions->file_get_contents_curl("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
 
-        $url = $functions->getContent("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
+        $url = $functions->getContent("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=Çamlaraltı");
         //echo "<a href='$url'>$url</a><br>";
 
         preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
