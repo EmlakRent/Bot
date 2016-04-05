@@ -48,8 +48,20 @@ Flight::route('POST /', function(){
 # todo : mbdef class'ına sahip divi bul ve kaç sayfa olduğunu tespit et && infoSearchResults
     for ( $i = 0 ; $i < 50 ; $i = $i + 50)
     {
-        $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=".$street);
 
+        $ch = curl_init();
+
+        // set url
+        curl_setopt($ch, CURLOPT_URL, "http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=".$street);
+
+        //return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // $output contains the output string
+        $url = curl_exec($ch);
+
+        // close curl resource to free up system resources
+        curl_close($ch);
         //echo "<a href='$url'>$url</a><br>";
 
         preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
