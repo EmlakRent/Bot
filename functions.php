@@ -5,51 +5,53 @@
  * Date: 05/04/16
  * Time: 18:56
  */
+###############################################################################################################
 
+    function cmp($a,$b)
+    {
+        return strcmp($a['location']['distance'],$b['location']['distance']);
+    }
 
     /**
-     * @param $file
-     * @return mixed|string
+     * @param $latitude
+     * @param $longitude
      */
-    function getContent($file)
+    function checkParam($latitude, $longitude)
     {
-        $content = "";
-         if (file_get_contents(__FILE__) && ini_get('allow_url_fopen')) {
-            $content = file_get_contents($file);
-            echo "Bot file get contents ile çalıştı!";
-            return $content;
-        } else {
-            echo 'You have neither cUrl installed nor allow_url_fopen activated. Please setup one of those!';
-            return $content;
+    # If latitude and longitude are empty
+        if (empty($latitude) && empty($longitude)) {
+            response("Konum bilgilerini göndermek zorundasın");
         }
     }
 
-    function file_get_contents_curl($url) {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        return $data;
+    /**
+     * @param $street
+     * @return string
+     */
+    function paramConvertToUrl($street)
+    {
+        $street = implode("+", explode(" ", $street));
+        return $street;
     }
 
-    function getUrlContent($url){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $data = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        return ($httpcode>=200 && $httpcode<300) ? $data : false;
+    /**
+     * @param $street
+     * @param $latitude
+     * @param $longitude
+     */
+    function checkStreet($street, $latitude, $longitude)
+    {
+    # If street is empty
+        if (empty($street)) {
+
+            # Use google reverse geocoding api and get street name.
+            $street = getStreet($latitude, $longitude);
+
+
+
+            # Return response
+            response($street);
+        }
     }
 
     /**
@@ -159,7 +161,7 @@
 
             $konum["latitude"] = $lat;
             $konum["longitude"] = $lon;
-            $konum["distance"] = $this->distance($lat,$lon,$latitude,$longitude,"K");
+            $konum["distance"] = distance($lat,$lon,$latitude,$longitude,"K");
 
         }
 
@@ -202,22 +204,6 @@
     }
 
     /**
-     * @param $aciklama
-     * @return mixed|string
-     */
-    function validate($aciklama)
-    {
-        $temizle = strip_tags($aciklama[0][0]);
-        $temizle = str_replace('<div', '', $temizle);
-        $temizle = htmlentities($temizle);
-        $temizle = str_replace('<font', '', $temizle);
-        $temizle = str_replace('<span', '', $temizle);
-        $temizle = str_replace('<p', '', $temizle);
-        $temizle = html_entity_decode($temizle);
-        return $temizle;
-    }
-
-    /**
      * @param $url
      * @return array
      */
@@ -234,48 +220,10 @@
         //echo $url;
 
         $result["url"]   = $url;
-        $result["location"] = $this->getLocation($site,$latitude,$longitude);
-        //$result["price"]  = $this->getPrice($site);
+        $result["location"] = getLocation($site,$latitude,$longitude);
+        $result["price"]  = getPrice($site);
 
         return $result;
-    }
-
-    /**
-     * @param $street
-     * @param $detay_icin_link
-     * @param $functions
-     * @param $latitude
-     * @param $longitude
-     * @param $sonuc
-     * @return array
-     */
-    function collectResults($street, $detay_icin_link, $functions, $latitude, $longitude, $sonuc)
-    {
-
-        $ilan_sayisi = 0;
-
-        for ( $i = 0 ; $i < 50 ; $i = $i + 50)
-        {
-            $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
-
-            //echo "<a href='$url'>$url</a><br>";
-
-            preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
-
-
-            $ilan_sayisi = count($detay_icin_link[0]);
-
-            for ( $j = 0; $j < $ilan_sayisi ; $j++ )
-            {
-                # Current url
-                $url ="http://www.sahibinden.com".$detay_icin_link[1][$j];
-
-                $sonuc[$j] = $this->getDetail($url,$latitude,$longitude);
-            }
-        }
-
-
-        return array($ilan_sayisi,$sonuc);
     }
 
     /**

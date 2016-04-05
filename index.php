@@ -7,7 +7,7 @@ require 'functions.php';
 
 
 Flight::route('GET /', function(){
-    echo 'Hoşgeldin, get isteği kabul etmiyoruz lütfen konum bilgilerini post ile gönder!';
+    response('Hoşgeldin, get isteği kabul etmiyoruz lütfen konum bilgilerini post ile gönder!');
 });
 
 Flight::route('POST /', function(){
@@ -15,31 +15,40 @@ Flight::route('POST /', function(){
     # Get parameters
     list($latitude, $longitude, $street) = getParam();
 
+    # Check parameters
+    checkParam($latitude, $longitude);
 
-    # If latitude and longitude are empty
-    if ( empty($latitude) && empty($longitude) )
-    {
-        response("Konum bilgilerini göndermek zorundasın");
-    }
+    # Check street
+    checkStreet($street, $latitude, $longitude);
 
-    # If street is empty
-    if( empty($street)  )
-    {
+    $street = paramConvertToUrl($street);
 
-        # Use google reverse geocoding api and get street name.
-        $street = getStreet($latitude, $longitude);
-
-        # Return response
-        response($street);
-    }
-
-
-    $ilan_sayisi = 0;
     $sonuc = array();
 
+    $ilan_sayisi = 0;
 
-    response("Burada sana yakınındaki sonuçları döndüreceğim.");
+    for ( $i = 0 ; $i < 50 ; $i = $i + 50)
+    {
+        $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
 
+        //echo "<a href='$url'>$url</a><br>";
+
+        preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
+
+
+        $ilan_sayisi = count($detay_icin_link[0]);
+
+        for ( $j = 0; $j < $ilan_sayisi ; $j++ )
+        {
+            # Current url
+            $url ="http://www.sahibinden.com".$detay_icin_link[1][$j];
+
+            $sonuc[$j] = getDetail($url,$latitude,$longitude);
+        }
+    }
+
+
+    response(sortNearestResult(removeFarResult($ilan_sayisi,$sonuc)));
 });
 
 
