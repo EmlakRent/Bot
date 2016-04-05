@@ -50,7 +50,7 @@ Flight::route('POST /', function(){
 
 
     # Remove far results
-    $functions->removeFarResult($ilan_sayisi, $sonuc);
+    $sonuc = $functions->removeFarResult($ilan_sayisi, $sonuc);
 
     # Sort by nearest results
     $data = $functions->sortNearestResult($sonuc);

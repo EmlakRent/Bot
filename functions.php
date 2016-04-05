@@ -21,6 +21,8 @@ class Functions
                 unset($sonuc[$j]);
             }
         }
+
+        return $sonuc;
     }
     /**
      * @param $sonuc
@@ -200,8 +202,31 @@ class Functions
      */
     function collectResults($street, $detay_icin_link, $functions, $latitude, $longitude, $sonuc)
     {
-        list($ilan_sayisi, $sonuc) = $this->collectResults($street, $detay_icin_link, $functions, $latitude, $longitude, $sonuc);
-        return array($ilan_sayisi, $sonuc);
+
+        $ilan_sayisi = 0;
+
+        for ( $i = 0 ; $i < 50 ; $i = $i + 50)
+        {
+            $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
+
+            //echo "<a href='$url'>$url</a><br>";
+
+            preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
+
+
+            $ilan_sayisi = count($detay_icin_link[0]);
+
+            for ( $j = 0; $j < $ilan_sayisi ; $j++ )
+            {
+                # Current url
+                $url ="http://www.sahibinden.com".$detay_icin_link[1][$j];
+
+                $sonuc[$j] = $functions->getDetail($url,$latitude,$longitude);
+            }
+        }
+
+
+        return array($ilan_sayisi,$sonuc);
     }
 
     /**
