@@ -212,12 +212,12 @@ class Functions
 
 //        $site = $this->getUrlContent($url);
 
-        $site = file_get_contents($url);
-//        $site = $this->file_get_contents_curl($url);
+   //     $site = file_get_contents($url);
+        $site = $this->file_get_contents_curl($url);
 
         $result["url"]   = $url;
         $result["location"] = $this->getLocation($site,$latitude,$longitude);
-        //$result["price"]  = $this->getPrice($site);
+        $result["price"]  = $this->getPrice($site);
 
         return $result;
     }
