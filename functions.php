@@ -221,7 +221,7 @@
 
         $result["url"]   = $url;
         $result["location"] = getLocation($site,$latitude,$longitude);
-        $result["price"]  = getPrice($site);
+        //$result["price"]  = getPrice($site);
 
         return $result;
     }
