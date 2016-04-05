@@ -12,18 +12,14 @@ Flight::route('GET /', function(){
 
 Flight::route('POST /', function(){
 
-
-    $functions = new Functions();
-
     # Get parameters
-    list($latitude, $longitude, $street) = $functions->getParam();
+    list($latitude, $longitude, $street) = getParam();
 
 
     # If latitude and longitude are empty
     if ( empty($latitude) && empty($longitude) )
     {
-        echo "Konum bilgilerini göndermek zorundasın";
-        exit;
+        response("Konum bilgilerini göndermek zorundasın");
     }
 
     # If street is empty
@@ -31,18 +27,18 @@ Flight::route('POST /', function(){
     {
 
         # Use google reverse geocoding api and get street name.
-        $street = $functions->getStreet($latitude, $longitude);
+        $street = getStreet($latitude, $longitude);
 
         # Return response
-        $functions->response($street);
-        exit;
+        response($street);
     }
 
 
     $ilan_sayisi = 0;
     $sonuc = array();
 
-    echo "Burada sana yakınındaki sonuçları döndüreceğim.";
+
+    response("Burada sana yakınındaki sonuçları döndüreceğim.");
 
 });
 

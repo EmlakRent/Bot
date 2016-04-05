@@ -6,8 +6,6 @@
  * Time: 18:56
  */
 
-class Functions
-{
 
     /**
      * @param $file
@@ -298,5 +296,5 @@ class Functions
     {
         $return = json_encode($data,JSON_UNESCAPED_UNICODE);
         echo $return;
+        exit;
     }
-}
