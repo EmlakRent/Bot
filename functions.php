@@ -10,6 +10,35 @@ class Functions
 {
 
     /**
+     * @param $ilan_sayisi
+     * @param $sonuc
+     */
+    function removeFarResult($ilan_sayisi, $sonuc)
+    {
+        for ($j = 0; $j < $ilan_sayisi; $j++) {
+
+            if ($sonuc[$j]['location']['distance'] > 1 or $sonuc[$j]['location']['distance'] == 0) {
+                unset($sonuc[$j]);
+            }
+        }
+    }
+    /**
+     * @param $sonuc
+     * @return array
+     */
+    function sortNearestResult($sonuc)
+    {
+        $data = [];
+
+        foreach (array_values($sonuc) as $r) {
+            $data[] = $r;
+        }
+
+        usort($data, 'cmp');
+        return $data;
+    }
+
+    /**
      * @param $lat1
      * @param $lon1
      * @param $lat2
@@ -158,5 +187,40 @@ class Functions
         $result["price"]  = $this->getPrice($site);
 
         return $result;
+    }
+
+    /**
+     * @param $street
+     * @param $detay_icin_link
+     * @param $functions
+     * @param $latitude
+     * @param $longitude
+     * @param $sonuc
+     * @return array
+     */
+    function collectResults($street, $detay_icin_link, $functions, $latitude, $longitude, $sonuc)
+    {
+        list($ilan_sayisi, $sonuc) = $this->collectResults($street, $detay_icin_link, $functions, $latitude, $longitude, $sonuc);
+        return array($ilan_sayisi, $sonuc);
+    }
+
+    /**
+     * @return array
+     */
+    function getParam()
+    {
+        $latitude = $_POST["latitude"];
+        $longitude = $_POST["longitude"];
+        $street = $_POST["street"];
+        return array($latitude, $longitude, $street);
+    }
+
+    /**
+     * @param $data
+     */
+    function response($data)
+    {
+        $return = json_encode($data,JSON_UNESCAPED_UNICODE);
+        echo $return;
     }
 }
