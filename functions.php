@@ -237,7 +237,7 @@ class Functions
 
         $result["url"]   = $url;
         $result["location"] = $this->getLocation($site,$latitude,$longitude);
-        $result["price"]  = $this->getPrice($site);
+        //$result["price"]  = $this->getPrice($site);
 
         return $result;
     }
