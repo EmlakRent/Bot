@@ -229,12 +229,12 @@ class Functions
 
 //        $site = $this->getUrlContent($url);
 
-   //     $site = file_get_contents($url);
+        $site = file_get_contents($url);
 //        $site = $this->file_get_contents_curl($url);
-        $site = $this->getContent($url);
+        //$site = $this->getContent($url);
 
         //echo $url;
-        var_dump($site);
+        echo $site;
         exit;
 
         $result["url"]   = $url;
