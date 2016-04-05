@@ -43,7 +43,7 @@ Flight::route('POST /', function(){
 
     for ( $i = 0 ; $i < 50 ; $i = $i + 50)
     {
-        $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
+        $url = $functions->file_get_contents_curl("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
 
         //echo "<a href='$url'>$url</a><br>";
 
