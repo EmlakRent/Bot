@@ -233,7 +233,9 @@ class Functions
 //        $site = $this->file_get_contents_curl($url);
         $site = $this->getContent($url);
 
-        echo $url;
+        //echo $url;
+        echo $site;
+        exit;
 
         $result["url"]   = $url;
         $result["location"] = $this->getLocation($site,$latitude,$longitude);
