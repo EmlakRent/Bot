@@ -36,22 +36,14 @@ Flight::route('POST /', function(){
         exit;
     }
 
-    # Cmp function
-    function cmp($a,$b)
-    {
-        return strcmp($a['location']['distance'],$b['location']['distance']);
-    }
-
-    $sonuc = array();
 
     $ilan_sayisi = 0;
+    $sonuc = array();
 
-# todo : mbdef class'ına sahip divi bul ve kaç sayfa olduğunu tespit et && infoSearchResults
+
     for ( $i = 0 ; $i < 50 ; $i = $i + 50)
     {
-        $url = "http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=".$street;
-
-        $url = $functions->getUrlContent($url);
+        $url = file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
 
         //echo "<a href='$url'>$url</a><br>";
 
@@ -68,13 +60,37 @@ Flight::route('POST /', function(){
             $sonuc[$j] = $functions->getDetail($url,$latitude,$longitude);
         }
     }
-    # Remove far results
-    $sonuc = $functions->removeFarResult($ilan_sayisi, $sonuc);
 
-    # Sort by nearest results
-    $data = $functions->sortNearestResult($sonuc);
 
-    $functions->response($data);
+
+
+    for ( $j = 0; $j < $ilan_sayisi ; $j++ )
+    {
+
+        if ( $sonuc[$j]['location']['distance'] > 1  or $sonuc[$j]['location']['distance'] == 0 )
+        {
+            unset($sonuc[$j]);
+        }
+    }
+
+    $data = [];
+
+    foreach(array_values($sonuc) as $r)
+    {
+        $data[] = $r;
+    }
+
+    function cmp($a,$b)
+    {
+        return strcmp($a['location']['distance'],$b['location']['distance']);
+    }
+
+    usort($data,'cmp');
+
+
+    $return =  json_encode($data);
+    echo $return;
+
 });
 
 
