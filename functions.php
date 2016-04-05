@@ -234,8 +234,6 @@ class Functions
         //$site = $this->getContent($url);
 
         //echo $url;
-        echo $site;
-        exit;
 
         $result["url"]   = $url;
         $result["location"] = $this->getLocation($site,$latitude,$longitude);
