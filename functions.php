@@ -234,7 +234,7 @@ class Functions
         $site = $this->getContent($url);
 
         //echo $url;
-        echo $site;
+        var_dump($site);
         exit;
 
         $result["url"]   = $url;
