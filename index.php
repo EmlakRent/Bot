@@ -1,5 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
+ini_set('allow_url_fopen','1');
 require 'vendor/autoload.php';
 require 'functions.php';
 
