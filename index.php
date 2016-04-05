@@ -12,28 +12,6 @@ Flight::route('GET /', function(){
 
 Flight::route('POST /', function(){
 
-    $file = "http://cagataycali.xyz";
-    if (function_exists('curl_version'))
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $file);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $content = curl_exec($curl);
-        curl_close($curl);
-    }
-    else if (file_get_contents(__FILE__) && ini_get('allow_url_fopen'))
-    {
-        $content = file_get_contents($file);
-    }
-    else
-    {
-        echo 'You have neither cUrl installed nor allow_url_fopen activated. Please setup one of those!';
-    }
-
-    print_r($content);
-    echo "Herşey yolunda!";
-    exit;
-
 
     $functions = new Functions();
 
@@ -68,8 +46,9 @@ Flight::route('POST /', function(){
     for ( $i = 0 ; $i < 50 ; $i = $i + 50)
     {
         //$url=file_get_contents("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=".urlencode($street));
-        $url = $functions->file_get_contents_curl("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
+//        $url = $functions->file_get_contents_curl("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
 
+        $url = $functions->getContent("http://www.sahibinden.com/emlak-konut?pagingSize=50&pagingOffset=$i&query_text=$street");
         //echo "<a href='$url'>$url</a><br>";
 
         preg_match_all('@<a class="classifiedTitle" href="(.*?)">(.*?)</a>@si',$url,$detay_icin_link);
@@ -89,12 +68,12 @@ Flight::route('POST /', function(){
 
 
 
-    for ( $j = 0; $j < $ilan_sayisi ; $j++ )
+    for ( $g = 0; $g < $ilan_sayisi ; $g++ )
     {
 
-        if ( $sonuc[$j]['location']['distance'] > 1  or $sonuc[$j]['location']['distance'] == 0 )
+        if ( $sonuc[$g]['location']['distance'] > 1  or $sonuc[$g]['location']['distance'] == 0 )
         {
-            unset($sonuc[$j]);
+            unset($sonuc[$g]);
         }
     }
 

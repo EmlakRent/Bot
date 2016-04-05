@@ -9,6 +9,32 @@
 class Functions
 {
 
+    /**
+     * @param $file
+     * @return mixed|string
+     */
+    function getContent($file)
+    {
+        $content = "";
+        if (function_exists('curl_version')) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $file);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $content = curl_exec($curl);
+            curl_close($curl);
+
+            echo "Bot curl ile çalıştı!";
+            return $content;
+        } else if (file_get_contents(__FILE__) && ini_get('allow_url_fopen')) {
+            $content = file_get_contents($file);
+            echo "Bot file get contents ile çalıştı!";
+            return $content;
+        } else {
+            echo 'You have neither cUrl installed nor allow_url_fopen activated. Please setup one of those!';
+            return $content;
+        }
+    }
+
     function file_get_contents_curl($url) {
         $ch = curl_init();
 
@@ -213,7 +239,10 @@ class Functions
 //        $site = $this->getUrlContent($url);
 
    //     $site = file_get_contents($url);
-        $site = $this->file_get_contents_curl($url);
+//        $site = $this->file_get_contents_curl($url);
+        $site = $this->getContent($url);
+
+        echo $url;
 
         $result["url"]   = $url;
         $result["location"] = $this->getLocation($site,$latitude,$longitude);
