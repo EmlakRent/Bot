@@ -30,6 +30,9 @@
      */
     function paramConvertToUrl($street)
     {
+
+
+
         $street = implode("+", explode(" ", $street));
         return $street;
     }
@@ -46,8 +49,6 @@
 
             # Use google reverse geocoding api and get street name.
             $street = getStreet($latitude, $longitude);
-
-
 
             # Return response
             response($street);
@@ -111,18 +112,27 @@
         }
     }
 
-    /**
-     * @param $latitude
-     * @param $longitude
-     */
+
     function getStreet($latitude, $longitude)
     {
         $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" . $latitude . "," . $longitude . "&sensor=true";
         $data = @file_get_contents($url);
         $jsondata = json_decode($data, true);
 
+        $data = array();
 
-        return $jsondata['results']['0']['address_components']['2']['long_name'];
+        # Mahalle
+        $data["street"] = $jsondata['results']['0']['address_components']['2']['short_name'];
+        # İl
+        $data["city"] = $jsondata['results']['0']['address_components']['4']['long_name'];
+
+        # Tam adres
+        $data["full_address"] = $jsondata['results']['0']['formatted_address'];
+
+        # Mahalle ismini + ekleyerek işleyelim
+        $data["street"] = $street =  implode("+", explode(" ",$data["street"]));
+
+        return $data;
     }
 
 
@@ -221,7 +231,7 @@
 
         $result["url"]   = $url;
         $result["location"] = getLocation($site,$latitude,$longitude);
-        //$result["price"]  = getPrice($site);
+        $result["price"]  = getPrice($site);
 
         return $result;
     }
